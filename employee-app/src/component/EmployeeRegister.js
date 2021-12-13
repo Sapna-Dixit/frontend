@@ -1,7 +1,7 @@
-import React, {useState}from "react";
-import { useDispatch, useSelector } from "react-redux";
+import  {useState}from "react";
+import { useDispatch} from "react-redux";
 import { setEmployee } from "../actions/EmployeeAction";
-import "../css/registration.css";
+import "../css/Showdata.css";
 import axios from "axios";
 
 
@@ -47,7 +47,7 @@ export const EmployeeRegister = ()=>{
      <div className="card-body">
        <h3 className="card-title text-center">Registration Form</h3>
        <div className="card-text">
-       <form onSubmit={(e)=>handleOnSubmit(e)} className="was-validated">
+       <form onSubmit={(e)=>handleOnSubmit(e)} className="was-validated" >
      <div className="row">
        <div className="col-md-6">
        <div className="form-group">
@@ -185,6 +185,7 @@ export const EmployeeRegister = ()=>{
      </div>
        <button type="submit" className="btn btn-primary btn-block">Register</button>
     
+     { console.log("Data inserted successfully...!!!")}
        </form>
        </div>
      </div>

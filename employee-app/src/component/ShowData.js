@@ -1,29 +1,34 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import  { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployee } from "../actions/EmployeeAction";
-import rootReducers from "../reducers/rootReducers";
-import "../css/dashboard.css";
+import "../css/Showdata.css";
+
 
 export const ShowData = ()=>{
 
-  const users = useSelector( state=>state.allEmployee.data);
+  const user = useSelector((state)=>state.allEmployee.users);
  
   const  dispatch = useDispatch();
 
-  async function getEmployeeDetails()
-  {
-     const getUsers = await axios.get(`http://localhost:8000/empRegister/registers`)
-     .catch((error)=>{
-    console.log(error);
-   dispatch( getEmployee(getUsers));
-  });
- }
-  useEffect(()=>{
-    getEmployeeDetails();
-  },[])
+  const getDetails = async()=>{
+    const res = await axios.get(`http://localhost:8000/empRegister/registers`)
+    .catch((err)=>{
+      console.log(err)
+    });
+    dispatch(getEmployee(res.data));
+  }
+
+ useEffect(()=>{
+   getDetails();
+ },[])
+
+//  useEffect(()=>{
+//   dispatch(getEmployee());
+//  },[dispatch])
  
-  console.log(users)
+  console.log("Get Employee Details : ",user);
 
     return(
         <div>
@@ -35,13 +40,17 @@ export const ShowData = ()=>{
 						<h2>Manage <b>Employees</b></h2>
 					</div>
 					<div className="col-sm-6">
-						<a href="#addEmployeeModal" className="btn btn-success" data-toggle="modal"><i className="fa-solid fa-circle-plus"></i> <span>Add New Employee</span></a>
+           
+						<a href="/Registration" className="btn btn-success" data-toggle="modal">
+              <i className="fa-solid fa-circle-plus"></i> <span>Add New Employee</span></a>
+            
 	                </div>
                 </div>
             </div>
             <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
+                       <th>Id</th>
 						            <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
@@ -51,10 +60,14 @@ export const ShowData = ()=>{
                         <th>Actions</th>
                     </tr>
                 </thead>
+                
                 <tbody>
-                { users.map( item => (
+                {
+
+                  user.map((item )=> (
                   <tr key={item._id}>
                   <td>{item._id}</td>
+                  <td>{item.firstName}</td>
                   <td>{item.lastName}</td>
                   <td>{item.email}</td>
                   <td>{item.phone}</td>
@@ -68,8 +81,8 @@ export const ShowData = ()=>{
                       data-toggle="modal"
                     >
                       <i
-                        className="fa-solid fa-pen"
-                        data-toggle="tooltip"
+                        className="fa fa-pen"
+                        data-toggle="tosolidoltip"
                         title="Edit"
                        ></i>
                     </a>
@@ -88,7 +101,7 @@ export const ShowData = ()=>{
                     </a>
                   </td>
                 </tr>
-                ))}
+                  ))}
                 </tbody>
             </table>
 		</div>
@@ -201,7 +214,7 @@ export const ShowData = ()=>{
     <div className="col-md-6">
     <div className="form-group">
     <label for="fname">First Name</label>
-    <input type="text" className="form-control" id="fname" required/>
+    <input type="text" className="form-control" id="fname1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
@@ -209,7 +222,7 @@ export const ShowData = ()=>{
     <div className="col-md-6">
      <div className="form-group">
     <label for="lname">Last Name</label>
-    <input type="text" className="form-control" id="lname" required/>
+    <input type="text" className="form-control" id="lname1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
@@ -217,7 +230,7 @@ export const ShowData = ()=>{
      <div className="col-md-6">
     <div className="form-group">
     <label for="email">Email</label>
-    <input type="email" className="form-control" id="email" required/>
+    <input type="email" className="form-control" id="email1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
@@ -225,7 +238,7 @@ export const ShowData = ()=>{
      <div className="col-md-6">
     <div className="form-group">
     <label for="phone">Phone</label>
-    <input type="text" className="form-control" id="phone" required/>
+    <input type="text" className="form-control" id="phone1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
@@ -235,36 +248,36 @@ export const ShowData = ()=>{
          <legend className="gender">Gender</legend>
       <div className="form-check-inline">
       <label className="form-check-label" for="radio1">
-        <input type="radio" className="form-check-input" id="radio1" name="optradio" value="option1" checked/>Male
+        <input type="radio" className="form-check-input" id="radio11" name="optradio" value="option1" checked/>Male
       </label>
     </div>
     <div className="form-check-inline">
       <label className="form-check-label" for="radio2">
-        <input type="radio" className="form-check-input" id="radio2" name="optradio" value="option2"/>Female
+        <input type="radio" className="form-check-input" id="radio21" name="optradio" value="option2"/>Female
       </label>
     </div>
   </div>
 </div>
      <div className="col-md-6">
     <div className="form-group">
-    <label for="age">Age</label>
-    <input type="text" className="form-control" id="age" required/>
+    <label for="age1">Age</label>
+    <input type="text" className="form-control" id="age1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
     </div>
      <div className="col-md-6">
     <div className="form-group">
-    <label for="passwrd">Password</label>
-    <input type="password" className="form-control" id="passwrd" required/>
+    <label for="passwrd1">Password</label>
+    <input type="password" className="form-control" id="passwrd1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
     </div>
      <div className="col-md-6">
     <div className="form-group">
-    <label for="cpasswrd">Confirm Password</label>
-    <input type="password" className="form-control" id="cpasswrd" required/>
+    <label for="cpasswrd1">Confirm Password</label>
+    <input type="password" className="form-control" id="cpasswrd1" required/>
      <div className="valid-feedback">Valid.</div>
      <div className="invalid-feedback">Please fill out this field.</div>
   </div>
@@ -304,4 +317,4 @@ export const ShowData = ()=>{
         </div>
     
     
-    )}
+)}
